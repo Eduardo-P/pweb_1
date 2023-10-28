@@ -1,0 +1,115 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #bd60ff;
+    margin: 0;
+}
+
+.nombre {
+    background: black;
+}
+.nombre h4{
+    margin: 0;
+    padding: 2px;
+    font-size: 10px;
+    color: white;
+}
+
+.calc {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+table {
+    margin: auto;
+    width: 250px;
+    height: 430px;
+    border-collapse: collapse;
+    background-color: #2d2d2ded;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.533);
+    border-radius: 10px;
+}
+  
+.entrada {
+    position: relative;
+    width: 100%;
+    height: 65px;
+    padding: 0px;
+    text-align: center;
+}
+
+td {
+    width: 60px;
+    height: 10px;
+    padding: 0px;
+    text-align: center;
+
+}
+
+input[type="text"] {
+    width: 80%;
+    height: 45px;
+    padding: 10px;
+    font-size: 20px;
+    border: none;
+    background-color: #6d6d6d;
+    color: white;
+    text-align: right;
+    margin: 0px;
+    margin-top: 1px;
+    margin-bottom: 0px;
+}
+.line {
+    width: 247px;
+    margin: auto;
+    margin-left: 1px;
+    position: absolute;
+    bottom: 0;
+}
+
+input[type="submit"] {
+    width: 80%;
+    height: 80%;
+    padding: 8px;
+    font-size: 20px;
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+input[value="("],
+input[value=")"],
+input[value="%"],
+input[value="AC"],
+input[value="÷"],
+input[value="×"],
+input[value="-"],
+input[value="+"] {
+    color: darkorange;
+}
+
+input[value="÷"],
+input[value="×"],
+input[value="-"],
+input[value="+"],
+input[value="="] {
+    padding: 2px;
+    font-size: 30px;
+}
+  
+input[type="submit"]:hover {
+    background-color: #696969;
+}
+  
+input[type="submit"][value="="] {
+    background-color: darkorange;
+}
+
+input[type="submit"][value="="]:hover {
+    background-color: #ffa434;
+}
