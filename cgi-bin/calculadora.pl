@@ -9,14 +9,18 @@ my $operacion = $cgi->param('operacion');
 my $accion = $cgi->param('accion');
 my $calcular = $cgi->param('submit');
 
-if ($operacion eq "0") {
-    $operacion = "";
-}
+unless ($calcular){
+    if ($operacion eq "0") {
+        $operacion = "";
+    }
 
-if ($accion eq "AC") {
-    $operacion = "0";
+    if ($accion eq "AC") {
+        $operacion = "0";
+    } else {
+        $operacion .= $accion;
+    }
 } else {
-    $operacion .= $accion;
+    $operacion = "falta";
 }
 
 open my $archivoHTML, '<', '../htdocs/Calculadora.html';
