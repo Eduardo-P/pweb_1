@@ -11,7 +11,9 @@ my $calcular = $cgi->param('submit');
 my $controlR = $cgi->param('controlR');
 
 unless ($calcular){
-    if ($operacion eq "0" || $controlR) {
+    if ($accion eq "+" || $accion eq "-" || $accion eq "×" || $accion eq "÷" || $accion eq "%"){
+        $controlR = "";
+    } elsif ($operacion eq "0" || $controlR) {
         $operacion = "";
         $controlR = "";
     }
