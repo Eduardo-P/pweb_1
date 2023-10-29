@@ -22,8 +22,8 @@ unless ($calcular){
 } else {
     $operacion =~ s/×/*/g;
     $operacion =~ s/÷/\//g;
-    my $cadena = $operacion;
 
+    my $cadena = $operacion;
     my @coincidencias = $operacion =~ /\(/g;
     for (my $i = 0; $i < @coincidencias+1; $i++){
         my $lado_izquierdo;
@@ -45,70 +45,44 @@ unless ($calcular){
         }
         $operacion =~ s/--/+/g;
         $operacion =~ s/(?<=\d)-(?=\d)/+-/g;
-        $operacion = resolverP($operacion);
-        $operacion = resolverMD($operacion);
-        $operacion = resolverSR($operacion);
+        $operacion = resolver($operacion);
         $operacion = $lado_izquierdo.$operacion.$lado_derecho;
     }
 }
 
-sub resolverP {
-    my $result;
+sub resolver {
     my $operacion = $_[0];
     my @expresion = split /([+*\/%])/, $operacion;
     for (my $i = 0; $i < @expresion; $i++){
         if ($expresion[$i] eq "%"){
-            $result = ($expresion[$i-1]/100);
-            $expresion[$i] = $result;
-            $expresion[$i-1] = "";
+            $expresion[$i] = $expresion[$i-1]/100;
+            splice(@expresion, $i-1, 1);
         }
     }
     $operacion = "";
-    for (my $i = 0; $i < @expresion; $i++){
-        $operacion .= $expresion[$i];
+    foreach my $elemento (@expresion) {
+        $operacion .= $elemento;
     }
-    return $operacion;
-}
-sub resolverMD {
-    my $result;
-    my $operacion = $_[0];
     my @expresion = split /([+*\/])/, $operacion;
     for (my $i = 0; $i < @expresion; $i++){
         if ($expresion[$i] eq "*"){
-            $result = $expresion[$i-1]*$expresion[$i+1];
-            $expresion[$i+1] = $result;
-            $expresion[$i-1] = "";
-            $expresion[$i] = "";
+            $expresion[$i+1] = $expresion[$i-1]*$expresion[$i+1];
+            splice(@expresion, $i-1, 2);
+            $i -= 2;
         } elsif ($expresion[$i] eq "/"){
-            $result = $expresion[$i-1]/$expresion[$i+1];
-            $expresion[$i+1] = $result;
-            $expresion[$i-1] = "";
-            $expresion[$i] = "";
+            $expresion[$i+1] = $expresion[$i-1]/$expresion[$i+1];
+            splice(@expresion, $i-1, 2);
+            $i -= 2;
         }
     }
-    $operacion = "";
-    for (my $i = 0; $i < @expresion; $i++){
-        $operacion .= $expresion[$i];
-    }
-    return $operacion;
-}
-sub resolverSR {
-    my $result;
-    my $operacion = $_[0];
-    my @expresion = split /([+])/, $operacion;
     for (my $i = 0; $i < @expresion; $i++){
         if ($expresion[$i] eq "+"){
-            $result = $expresion[$i-1]+$expresion[$i+1];
-            $expresion[$i+1] = $result;
-            $expresion[$i-1] = "";
-            $expresion[$i] = "";
+            $expresion[$i+1] = $expresion[$i-1]+$expresion[$i+1];
+            splice(@expresion, $i-1, 2);
+            $i -= 2;
         }
     }
-    $operacion = "";
-    for (my $i = 0; $i < @expresion; $i++){
-        $operacion .= $expresion[$i];
-    }
-    return $operacion;
+    return $expresion[0];
 }
 
 open my $archivoHTML, '<', '../htdocs/Calculadora.html';
