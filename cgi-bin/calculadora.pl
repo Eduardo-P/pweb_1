@@ -23,30 +23,20 @@ unless ($calcular){
     $operacion =~ s/×/*/g;
     $operacion =~ s/÷/\//g;
 
-    my $cadena = $operacion;
     my @coincidencias = $operacion =~ /\(/g;
     for (my $i = 0; $i < @coincidencias+1; $i++){
-        my $lado_izquierdo;
-        my $lado_derecho;
-        if ($i < @coincidencias){
-            my $pos = index($operacion, ")");
-            my $indice;
-            if (length($operacion)-1 > $pos){
-                $lado_derecho = substr($operacion, $pos+1);
-            }
-            $operacion = substr($operacion, 0, $pos);
-            if ($operacion =~ /\((?!.*\()/) {
-                $indice = $-[0];
-            }
-            if ($indice > 0){
-                $lado_izquierdo = substr($operacion, 0, $indice);
-            }
-            $operacion = substr($operacion, $indice+1);
+        my $expresion = $operacion;
+        if ($expresion =~ /\(([^()]+)\)/){
+            $expresion = $1;
         }
-        $operacion =~ s/--/+/g;
-        $operacion =~ s/(?<=\d)-(?=\d)/+-/g;
-        $operacion = resolver($operacion);
-        $operacion = $lado_izquierdo.$operacion.$lado_derecho;
+        my $resultado = $expresion;
+        $resultado =~ s/--/+/g;
+        $resultado =~ s/(?<=\d)-(?=\d)/+-/g;
+        $resultado = resolver($resultado);
+        if ($i < @coincidencias){
+            $expresion = "(".$expresion.")";
+        }
+        $operacion =~ s/\Q$expresion\E/$resultado/g;
     }
 }
 
