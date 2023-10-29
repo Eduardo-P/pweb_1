@@ -20,26 +20,74 @@ unless ($calcular){
         $operacion .= $accion;
     }
 } else {
+    $operacion = resolverP($operacion);
+    $operacion = resolverMD($operacion);
+    $operacion = resolverSR($operacion);
+}
+
+sub resolverP {
+    my $result;
+    my $operacion = $_[0];
     my @expresion = split /([+*\/%])/, $operacion;
+    for (my $i = 0; $i < @expresion; $i++){
+        if ($expresion[$i] eq "%"){
+            $result = ($expresion[$i-1]/100);
+            $expresion[$i] = $result;
+            $expresion[$i-1] = "";
+        }
+    }
+    $operacion = "";
+    for (my $i = 0; $i < @expresion; $i++){
+        $operacion .= $expresion[$i];
+    }
+    return $operacion;
+}
+sub resolverMD {
+    my $result;
+    my $operacion = $_[0];
+    my @expresion = split /([+*\/])/, $operacion;
+    for (my $i = 0; $i < @expresion; $i++){
+        if ($expresion[$i] eq "*"){
+            $result = $expresion[$i-1]*$expresion[$i+1];
+            $expresion[$i+1] = $result;
+            $expresion[$i-1] = "";
+            $expresion[$i] = "";
+        } elsif ($expresion[$i] eq "/"){
+            $result = $expresion[$i-1]/$expresion[$i+1];
+            $expresion[$i+1] = $result;
+            $expresion[$i-1] = "";
+            $expresion[$i] = "";
+        }
+    }
+    $operacion = "";
+    for (my $i = 0; $i < @expresion; $i++){
+        $operacion .= $expresion[$i];
+    }
+    return $operacion;
+}
+sub resolverSR {
+    my $result;
+    my $operacion = $_[0];
+    my @expresion = split /([+])/, $operacion;
     for (my $i = 0; $i < @expresion; $i++){
         if ($expresion[$i] eq "+"){
             $result = $expresion[$i-1]+$expresion[$i+1];
             $expresion[$i+1] = $result;
-        } elsif ($expresion[$i] eq "-"){
+            $expresion[$i-1] = "";
+            $expresion[$i] = "";
+        }
+        if ($expresion[$i] eq "-"){
             $result = $expresion[$i-1]-$expresion[$i+1];
             $expresion[$i+1] = $result;
-        } elsif ($expresion[$i] eq "*"){
-            $result = $expresion[$i-1]*$expresion[$i+1];
-            $expresion[$i+1] = $result;
-        } elsif ($expresion[$i] eq "/"){
-            $result = $expresion[$i-1]/$expresion[$i+1];
-            $expresion[$i+1] = $result;
-        } elsif ($expresion[$i] eq "%"){
-            $result = ($expresion[$i-1]/100);
-            $expresion[$i] = $result;
+            $expresion[$i-1] = "";
+            $expresion[$i] = "";
         }
     }
-    $operacion = $result;
+    $operacion = "";
+    for (my $i = 0; $i < @expresion; $i++){
+        $operacion .= $expresion[$i];
+    }
+    return $operacion;
 }
 
 open my $archivoHTML, '<', '../htdocs/Calculadora.html';
