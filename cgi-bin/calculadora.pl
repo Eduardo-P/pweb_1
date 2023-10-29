@@ -41,11 +41,15 @@ unless ($calcular){
             $lado_izquierdo = substr($operacion, 0, $indice);
         }
         $operacion = substr($operacion, $indice+1);
+        $operacion =~ s/--/+/g;
+        $operacion =~ s/(?<=\d)-(?=\d)/+-/g;
         $operacion = resolverP($operacion);
         $operacion = resolverMD($operacion);
         $operacion = resolverSR($operacion);
         $operacion = $lado_izquierdo.$operacion.$lado_derecho;
     }
+    $operacion =~ s/--/+/g;
+    $operacion =~ s/(?<=\d)-(?=\d)/+-/g;
     $operacion = resolverP($operacion);
     $operacion = resolverMD($operacion);
     $operacion = resolverSR($operacion);
@@ -98,12 +102,6 @@ sub resolverSR {
     for (my $i = 0; $i < @expresion; $i++){
         if ($expresion[$i] eq "+"){
             $result = $expresion[$i-1]+$expresion[$i+1];
-            $expresion[$i+1] = $result;
-            $expresion[$i-1] = "";
-            $expresion[$i] = "";
-        }
-        if ($expresion[$i] eq "-"){
-            $result = $expresion[$i-1]-$expresion[$i+1];
             $expresion[$i+1] = $result;
             $expresion[$i-1] = "";
             $expresion[$i] = "";
