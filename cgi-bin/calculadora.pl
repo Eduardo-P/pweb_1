@@ -8,10 +8,12 @@ my $cgi = CGI->new;
 my $operacion = $cgi->param('operacion');
 my $accion = $cgi->param('accion');
 my $calcular = $cgi->param('submit');
+my $controlR = $cgi->param('controlR');
 
 unless ($calcular){
-    if ($operacion eq "0") {
+    if ($operacion eq "0" || $controlR) {
         $operacion = "";
+        $controlR = "";
     }
 
     if ($accion eq "AC") {
@@ -70,6 +72,8 @@ close $archivoHTML;
 for my $line (@archivoHTML) {
     if ($line =~ /<input type="text" name="operacion" value='/) {
         $line =~ s/(<input type="text" name="operacion" value=')\S*('>)/$1$operacion$2/;
+    } elsif ($line =~ /<input type="hidden" name="controlR" value='/) {
+        $line =~ s/(<input type="hidden" name="controlR" value=')\S*('>)/$1$controlR$2/;
     }
 }
 
