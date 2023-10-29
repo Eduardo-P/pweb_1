@@ -6,6 +6,18 @@ use CGI;
 my $cgi = CGI->new;
 
 my $operacion = $cgi->param('operacion');
+my $accion = $cgi->param('accion');
+my $calcular = $cgi->param('submit');
+
+if ($operacion eq "0") {
+    $operacion = "";
+}
+
+if ($accion eq "AC") {
+    $operacion = "0";
+} else {
+    $operacion .= $accion;
+}
 
 open my $archivoHTML, '<', '../htdocs/Calculadora.html';
 my @archivoHTML = <$archivoHTML>;
