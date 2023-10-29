@@ -87,7 +87,7 @@ sub resolver {
 
 open my $archivoHTML, '<', '../htdocs/Calculadora.html';
 my @archivoHTML = <$archivoHTML>;
-close $html_file;
+close $archivoHTML;
 
 for my $line (@archivoHTML) {
     if ($line =~ /<input type="text" name="operacion" value='/) {
