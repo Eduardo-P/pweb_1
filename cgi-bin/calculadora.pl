@@ -20,7 +20,26 @@ unless ($calcular){
         $operacion .= $accion;
     }
 } else {
-    $operacion = "falta";
+    my @expresion = split /([+*\/%])/, $operacion;
+    for (my $i = 0; $i < @expresion; $i++){
+        if ($expresion[$i] eq "+"){
+            $result = $expresion[$i-1]+$expresion[$i+1];
+            $expresion[$i+1] = $result;
+        } elsif ($expresion[$i] eq "-"){
+            $result = $expresion[$i-1]-$expresion[$i+1];
+            $expresion[$i+1] = $result;
+        } elsif ($expresion[$i] eq "*"){
+            $result = $expresion[$i-1]*$expresion[$i+1];
+            $expresion[$i+1] = $result;
+        } elsif ($expresion[$i] eq "/"){
+            $result = $expresion[$i-1]/$expresion[$i+1];
+            $expresion[$i+1] = $result;
+        } elsif ($expresion[$i] eq "%"){
+            $result = ($expresion[$i-1]/100);
+            $expresion[$i] = $result;
+        }
+    }
+    $operacion = $result;
 }
 
 open my $archivoHTML, '<', '../htdocs/Calculadora.html';
