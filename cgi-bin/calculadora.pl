@@ -20,6 +20,32 @@ unless ($calcular){
         $operacion .= $accion;
     }
 } else {
+    $operacion =~ s/×/*/g;
+    $operacion =~ s/÷/\//g;
+
+    my $cadena = $operacion;
+    my @coincidencias = $cadena =~ /\(/g;
+    my $lado_izquierdo;
+    my $lado_derecho;
+    for (my $j = 0; $j < @coincidencias; $j++){
+        my $pos = index($operacion, ")");
+        my $indice;
+        if (length($operacion)-1 > $pos){
+            $lado_derecho = substr($operacion, $pos+1);
+        }
+        $operacion = substr($operacion, 0, $pos);
+        if ($operacion =~ /\((?!.*\()/) {
+            $indice = $-[0];
+        }
+        if ($indice > 0){
+            $lado_izquierdo = substr($operacion, 0, $indice);
+        }
+        $operacion = substr($operacion, $indice+1);
+        $operacion = resolverP($operacion);
+        $operacion = resolverMD($operacion);
+        $operacion = resolverSR($operacion);
+        $operacion = $lado_izquierdo.$operacion.$lado_derecho;
+    }
     $operacion = resolverP($operacion);
     $operacion = resolverMD($operacion);
     $operacion = resolverSR($operacion);
