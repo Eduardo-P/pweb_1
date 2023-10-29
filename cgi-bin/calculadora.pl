@@ -11,12 +11,10 @@ my $calcular = $cgi->param('submit');
 my $controlR = $cgi->param('controlR');
 
 unless ($calcular){
-    if ($accion eq "+" || $accion eq "-" || $accion eq "×" || $accion eq "÷" || $accion eq "%"){
-        $controlR = "";
-    } elsif ($operacion eq "0" || $controlR) {
+    if ($operacion eq "0" || $operacion eq "Error:_División_por_cero" || ($controlR && $accion =~ /[0-9.()]/)) {
         $operacion = "";
-        $controlR = "";
     }
+    $controlR = "";
 
     if ($accion eq "AC") {
         $operacion = "0";
@@ -24,16 +22,21 @@ unless ($calcular){
         $operacion .= $accion;
     }
 } else {
+    $controlR = "activo";
     $operacion =~ s/×/*/g;
     $operacion =~ s/÷/\//g;
     $operacion = "(".$operacion.")";
-    
+
     while ($operacion =~ /\(([^()]+)\)/) {
         my $expresion = $1;
         my $resultado = $expresion;
         $resultado =~ s/--/+/g;
         $resultado =~ s/(?<=\d)-(?=\d)/+-/g;
         $resultado = resolver($resultado);
+        if ($resultado eq "Error") {
+            $operacion = "Error:_División_por_cero";
+            last;
+        }
         $operacion =~ s/\Q($expresion)\E/$resultado/g;
     }
 }
@@ -56,14 +59,13 @@ sub resolver {
             if ($operando2 != 0) {
                 $resultado = $operando1 / $operando2;
             } else {
-                return "Error: División por cero";
+                return "Error";
             }
         } elsif ($operador eq '+') {
             $resultado = $operando1 + $operando2;
         }
         $operacion =~ s/\Q$expresion/$resultado/g;
     }
-    
     return $operacion;
 }
 
@@ -79,10 +81,8 @@ for my $line (@archivoHTML) {
     }
 }
 
-
 open my $archivoHTML, '>', '../htdocs/Calculadora.html';
 print $archivoHTML @archivoHTML;
 close $archivoHTML;
-
 
 print $cgi->redirect('http://localhost/Calculadora.html');
