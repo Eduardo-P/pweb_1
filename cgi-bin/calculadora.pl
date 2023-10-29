@@ -42,17 +42,7 @@ unless ($calcular){
 
 sub resolver {
     my $operacion = $_[0];
-    my @expresion = split /([+*\/%])/, $operacion;
-    for (my $i = 0; $i < @expresion; $i++){
-        if ($expresion[$i] eq "%"){
-            $expresion[$i] = $expresion[$i-1]/100;
-            splice(@expresion, $i-1, 1);
-        }
-    }
-    $operacion = "";
-    foreach my $elemento (@expresion) {
-        $operacion .= $elemento;
-    }
+    $operacion =~ s/%/\/100/g;
     my @expresion = split /([+*\/])/, $operacion;
     for (my $i = 0; $i < @expresion; $i++){
         if ($expresion[$i] eq "*"){
