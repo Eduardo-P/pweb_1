@@ -44,9 +44,11 @@ sub resolver {
     my $operacion = $_[0];
     $operacion =~ s/%/\/100/g;
 
-    my @coincidencias = $operacion =~ /[\*\/]/g;
+    my @coincidencias = $operacion =~ /[+\*\/]/g;
     for (my $i = 0; $i < @coincidencias; $i++){
         if ($operacion =~ /([-]?\d*\.?\d+)\s*([*\/])\s*([-]?\d*\.?\d+)/){
+        } elsif ($operacion =~ /([-]?\d*\.?\d+)\s*([+])\s*([-]?\d*\.?\d+)/) {
+        }
             my $operando1 = $1;
             my $operador = $2;
             my $operando2 = $3;
@@ -61,24 +63,11 @@ sub resolver {
                 } else {
                     return "Error: División por cero";
                 }
-            }
-            $operacion =~ s/\Q$expresion\E/$resultado/g;
-        }
-    }
-    my @coincidencias = $operacion =~ /[+]/g;
-    for (my $i = 0; $i < @coincidencias; $i++){
-        if ($operacion =~ /([-]?\d*\.?\d+)\s*([+])\s*([-]?\d*\.?\d+)/){
-            my $operando1 = $1;
-            my $operador = $2;
-            my $operando2 = $3;
-            my $expresion = $1.$2.$3;
-
-            my $resultado;
-            if ($operador eq '+') {
+            } elsif ($operador eq '+') {
                 $resultado = $operando1 + $operando2;
             }
             $operacion =~ s/\Q$expresion\E/$resultado/g;
-        }
+        
     }
     return $operacion;
 }
