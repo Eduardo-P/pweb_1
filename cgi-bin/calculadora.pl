@@ -65,15 +65,22 @@ sub resolver {
             $operacion =~ s/\Q$expresion\E/$resultado/g;
         }
     }
-    my @expresion = split /([+])/, $operacion;
-    for (my $i = 0; $i < @expresion; $i++){
-        if ($expresion[$i] eq "+"){
-            $expresion[$i+1] = $expresion[$i-1]+$expresion[$i+1];
-            splice(@expresion, $i-1, 2);
-            $i -= 2;
+    my @coincidencias = $operacion =~ /[+]/g;
+    for (my $i = 0; $i < @coincidencias; $i++){
+        if ($operacion =~ /([-]?\d*\.?\d+)\s*([+])\s*([-]?\d*\.?\d+)/){
+            my $operando1 = $1;
+            my $operador = $2;
+            my $operando2 = $3;
+            my $expresion = $1.$2.$3;
+
+            my $resultado;
+            if ($operador eq '+') {
+                $resultado = $operando1 + $operando2;
+            }
+            $operacion =~ s/\Q$expresion\E/$resultado/g;
         }
     }
-    return $expresion[0];
+    return $operacion;
 }
 
 open my $archivoHTML, '<', '../htdocs/Calculadora.html';
