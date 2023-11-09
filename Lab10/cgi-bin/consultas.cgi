@@ -1,14 +1,13 @@
 #!"C:/xampp/perl/bin/perl.exe"
-use strict;
-use warnings;
+use Encode qw(decode);
 use CGI;
 
 my $cgi = CGI->new;
 
-my $nombre = $cgi->param('nombreU');
+my $nombre = decode('UTF-8', $cgi->param('nombreU'));
 my $periodo = $cgi->param('periodoL');
-my $departamento = $cgi->param('departamentoL');
-my $denominacion = $cgi->param('denominacionP');
+my $departamento = decode('UTF-8', $cgi->param('departamentoL'));
+my $denominacion = decode('UTF-8', $cgi->param('denominacionP'));
 
 my $archivo;
 open($archivo, "Programas_de_Universidades.csv");
