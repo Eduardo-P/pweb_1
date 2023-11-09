@@ -20,19 +20,37 @@ open(my $resultadosHTML, "../htdocs/Resultados.html");
 my @resultadosHTML = <$resultadosHTML>;
 close $resultadosHTML;
 
+my $tablaInicio;
+my $tablaFin;
 for (my $i = 0; $i < @resultadosHTML; $i++){
     if ($resultadosHTML[$i] =~ /<table>/) {
-        foreach my $line  (@archivo) {
-            my @campos = $line =~ /([^|]+)/g;
-            if ($campos[1] eq $nombre && $campos[4] eq $periodo && $campos[10] eq $departamento && $campos[16] eq $denominacion) {
-                splice(@resultadosHTML, $i+1, 0, "<tr><td>$line<td><tr>");
+        $tablaInicio = $i+1;
+    } elsif ($resultadosHTML[$i] =~ /<\/table>/) {
+        $tablaFin= $i;
+    }
+}
+splice(@resultadosHTML, $tablaInicio, $tablaFin-$tablaInicio);
+
+for (my $i = 0; $i < @resultadosHTML; $i++){
+    if ($resultadosHTML[$i] =~ /<table>/) {
+        for (my $j = 0; $j < @archivo; $j++){
+            my @campos = $archivo[$j] =~ /([^|]+)/g;
+            if ($j == 0 || $campos[1] eq $nombre && $campos[4] eq $periodo && $campos[10] eq $departamento && $campos[16] eq $denominacion) {
+                splice(@resultadosHTML, $i+1, 0, registros(@campos));
                 $i++;
-                #$aja = $line."<br>";
-                #print $line."<br>";
             }
         }
-        
     }
+}
+
+sub registros {
+    my $registro = "<tr>\n";
+    foreach my $dato  (@_) {
+        $dato =~ s/_/ /g;
+        $registro .= "<td>$dato</td>\n";
+    }
+    $registro .= "</tr>\n";
+    return $registro;
 }
 
 
