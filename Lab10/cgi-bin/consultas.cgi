@@ -12,5 +12,13 @@ my $denominacion = $cgi->param('denominacionP');
 
 my $archivo;
 open($archivo, "Programas_de_Universidades.csv");
-my @archivoCSV = <$archivo>;
+
+print "Content-Type: text/html\n\n";
+while (my $line = <$archivo>) {
+    my @campos = $line =~ /([^|]+)/g;
+    if ($campos[1] eq $nombre && $campos[4] eq $periodo && $campos[10] eq $departamento && $campos[16] eq $denominacion) {
+        print $line."<br>";
+    }
+}
+
 close($archivo);
