@@ -1,0 +1,15 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #bd60ff;
+    margin: 0;
+}
+
+.nombre {
+    background: black;
+}
+.nombre h4{
+    margin: 0;
+    padding: 2px;
+    font-size: 10px;
+    color: white;
+}
