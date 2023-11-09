@@ -13,27 +13,28 @@ my $denominacion = decode('UTF-8', $cgi->param('denominacionP'));
 my $archivo;
 my $aja;
 open($archivo, "Programas_de_Universidades.csv");
-
-
-while (my $line = <$archivo>) {
-    my @campos = $line =~ /([^|]+)/g;
-    if ($campos[1] eq $nombre && $campos[4] eq $periodo && $campos[10] eq $departamento && $campos[16] eq $denominacion) {
-        $aja = $line."<br>";
-        #print $line."<br>";
-    }
-}
-
+my @archivo = <$archivo>;
 close($archivo);
-open(my $resultadosHTML, "../htdocs/Resultados.html");
 
+open(my $resultadosHTML, "../htdocs/Resultados.html");
 my @resultadosHTML = <$resultadosHTML>;
 close $resultadosHTML;
 
 for (my $i = 0; $i < @resultadosHTML; $i++){
     if ($resultadosHTML[$i] =~ /<table>/) {
-        splice(@resultadosHTML, $i+1, 0, "<tr><td>$aja<td><tr>");
+        foreach my $line  (@archivo) {
+            my @campos = $line =~ /([^|]+)/g;
+            if ($campos[1] eq $nombre && $campos[4] eq $periodo && $campos[10] eq $departamento && $campos[16] eq $denominacion) {
+                splice(@resultadosHTML, $i+1, 0, "<tr><td>$line<td><tr>");
+                $i++;
+                #$aja = $line."<br>";
+                #print $line."<br>";
+            }
+        }
+        
     }
 }
+
 
 open my $resultadosHTML, '>:utf8', '../htdocs/Resultados.html';
 print $resultadosHTML @resultadosHTML;
