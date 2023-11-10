@@ -10,6 +10,7 @@ my $periodo = $cgi->param('periodoL');
 my $departamento = decode('UTF-8', $cgi->param('departamentoL'));
 my $denominacion = decode('UTF-8', $cgi->param('denominacionP'));
 my $regresar = $cgi->param('regresar');
+
 if ($regresar){
     print $cgi->redirect('http://localhost/Consultas.html');
 } else {
