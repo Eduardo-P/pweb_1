@@ -19,6 +19,7 @@ body {
     flex-direction: column;
     align-items: center;
     margin: auto;
+    width: 95%;
 }
 
 h1 {
@@ -34,6 +35,13 @@ h1 {
     padding: 20px;
     padding-bottom: 10px;
 }
+.regresar {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+    margin-right: 20px;
+}
 
 input[type="text"] {
     width: 400px;
@@ -44,8 +52,7 @@ input[type="text"] {
     margin-left: 10px;
     margin-bottom: 5px;
 }
-input[value="Consultar"] {
-    
+input[type="submit"] {
     border: none;
     border-radius: 4px;
     background-color:darkviolet;
@@ -58,7 +65,7 @@ input[value="Consultar"] {
     display: flex;
     flex-wrap: nowrap;
     overflow: scroll;
-    width: 95%;
+    width: 100%;
 }
 .table_result {
     flex: 1 0 auto;
