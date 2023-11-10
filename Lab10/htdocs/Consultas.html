@@ -9,18 +9,31 @@
         <div class="nombre">
             <h4>Trabajo de: Portugal Portugal Eduardo Sebastian Stephan</h4>
         </div>
-        <h1>Consultas sobre Universidades licenciadas</h1><hr><br>
-        <form method="post" action="cgi-bin/consultas.cgi">
-            <label for="nombre">Nombre Universidad</label><br>
-            <input type="text" id="nombre" name="nombreU" placeholder="Ingresar texto" value=""><br>
-            <label for="periodo">Periodo Licenciamiento</label><br>
-            <input type="text" id="periodo" name="periodoL" placeholder="Ingresar texto" value=""><br>
-            <label for="departamento">Departamento Local</label><br>
-            <input type="text" id="departamento" name="departamentoL" placeholder="Ingresar texto" value=""><br>
-            <label for="denominacion">Denominación Programa</label><br>
-            <input type="text" id="denominacion" name="denominacionP" placeholder="Ingresar texto" value=""><br>
-            <input type="submit" value="Consultar">
-        </form>
+        <div class="bloque">
+            <h1>Consultas sobre Universidades licenciadas</h1><hr><br>
+            <div class="consultar">
+                <form method="post" action="cgi-bin/consultas.cgi">
+                    <table>
+                        <tr>
+                            <td><label for="nombre">Nombre Universidad:</label></td>
+                            <td><input type="text" id="nombre" name="nombreU" placeholder="Ingresar texto" value=""></td>
+                        </tr>
+                        <tr>
+                            <td><label for="periodo">Periodo Licenciamiento:</label></td>
+                            <td><input type="text" id="periodo" name="periodoL" placeholder="Ingresar texto" value=""></td>
+                        </tr>
+                        <tr>
+                            <td><label for="departamento">Departamento Local:</label></td>
+                            <td><input type="text" id="departamento" name="departamentoL" placeholder="Ingresar texto" value=""></td>
+                        </tr>
+                        <tr>
+                            <td><label for="denominacion">Denominación Programa:</label></td>
+                            <td><input type="text" id="denominacion" name="denominacionP" placeholder="Ingresar texto" value=""></td>
+                        </tr>
+                    </table>
+                    <input type="submit" value="Consultar">
+                </form>
+            </div>
         </div>
     </body>
 </html>
