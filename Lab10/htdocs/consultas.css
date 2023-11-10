@@ -26,7 +26,7 @@ h1 {
 }
 
 .consultar {
-    background-color: #ffffff8d;
+    background-color: #ffffffa2;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -52,4 +52,31 @@ input[value="Consultar"] {
     padding: 5px 12px;
     color: white;
     float: right;
+}
+
+.resultados {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: scroll;
+    width: 95%;
+}
+.table_result {
+    flex: 1 0 auto;
+    background-color: white;
+    border-collapse: collapse;
+    margin: 20px 0;
+    border: 1px solid black;
+    
+}
+.table_result th {
+    background-color: #3199d1;
+    border: 1px solid black;
+    padding: 8px;
+}
+.table_result td {
+    border: 1px solid black;
+    padding: 8px;
+}
+.table_result tr:nth-child(odd) {
+    background-color: #96c6e0;
 }
